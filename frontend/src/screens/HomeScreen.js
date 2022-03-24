@@ -1,8 +1,11 @@
-import React, { useEffect, useReducer, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useReducer } from "react";
+
 //import data from "../data";
 import axios from "axios";
 import logger from "use-reducer-logger";
+import { Row, Col } from "react-bootstrap";
+import Product from "../components/Product";
+import { Helmet } from "react-helmet-async";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -43,6 +46,9 @@ function HomeScreen() {
 
   return (
     <div>
+      <Helmet>
+        <title>Amazona</title>
+      </Helmet>
       <h1>Feature Products</h1>
       <div className="products">
         {loading ? (
@@ -50,22 +56,13 @@ function HomeScreen() {
         ) : error ? (
           <div>{error}</div>
         ) : (
-          products.map((product) => (
-            <div key={product.slug} className="product">
-              <Link to={`/product/${product.slug}`}>
-                <img src={product.image} alt={product.name} />
-              </Link>
-              <div className="product-info">
-                <Link to={`/product/${product.slug}`}>
-                  <p>{product.name}</p>
-                </Link>
-                <p>
-                  <strong>Rs{product.price}</strong>
-                </p>
-                <button>Add to cart</button>
-              </div>
-            </div>
-          ))
+          <Row>
+            {products.map((product) => (
+              <Col key={product.slug} sm={6} md={4} lg={3}>
+                <Product product={product} />
+              </Col>
+            ))}
+          </Row>
         )}
       </div>
     </div>

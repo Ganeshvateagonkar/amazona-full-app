@@ -19,6 +19,10 @@ header a {
 main {
   flex: 1;
 }
+.btn-primary {
+  background-color: #f0c040;
+  color: black;
+}
 .products {
   display: flex;
   flex-wrap: wrap;
@@ -37,4 +41,10 @@ main {
 }
 .siteContainer {
   min-height: 100vh;
+}
+.rating span {
+  color: #ffc000;
+}
+.img-large {
+  max-width: 100%;
 }
