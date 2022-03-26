@@ -4,7 +4,15 @@ import ProductScreen from "./screens/ProductScreen";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import { LinkContainer } from "react-router-bootstrap";
+import { Badge, Nav } from "react-bootstrap";
+import { useContext } from "react";
+import { Store } from "./store";
+import CartScreen from "./screens/CartScreen";
 function App() {
+  const { state } = useContext(Store);
+  const { cart } = state;
+  console.log(cart);
+
   return (
     <Router>
       <div className="d-flex flex-column siteContainer">
@@ -14,6 +22,16 @@ function App() {
               <LinkContainer to="/">
                 <Navbar.Brand>amazona</Navbar.Brand>
               </LinkContainer>
+              <Nav className="me-auto">
+                <Link to="cart" className="nav-link">
+                  Cart
+                  {cart.cartItems.length > 0 && (
+                    <Badge pill bg="danger">
+                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                    </Badge>
+                  )}
+                </Link>
+              </Nav>
             </Container>
           </Navbar>
         </header>
@@ -21,6 +39,7 @@ function App() {
           <Container className="mt-3">
             <Routes>
               <Route path="/product/:slug" element={<ProductScreen />} />
+              <Route path="/cart" element={<CartScreen />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>

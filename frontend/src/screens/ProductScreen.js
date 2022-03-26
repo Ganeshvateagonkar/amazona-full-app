@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useReducer } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useEffect, useReducer } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Row,
   Col,
@@ -15,6 +15,7 @@ import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import getError from "../utils";
+import { Store } from "../store";
 const reducer = (state, action) => {
   switch (action.type) {
     case "FETCH_REQUEST":
@@ -32,7 +33,7 @@ const reducer = (state, action) => {
 function ProductScreen() {
   const params = useParams();
   const { slug } = params;
-
+  const navigate = useNavigate();
   const [{ loading, product, error }, dispatch] = useReducer(reducer, {
     product: [],
     loading: true,
@@ -52,6 +53,21 @@ function ProductScreen() {
     };
     fetchData();
   }, [slug]);
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart } = state;
+  const addToCart = async () => {
+    const existItem = cart.cartItems.find((item) => item._id === product._id);
+
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const { data } = await axios.get(`/api/products/newProduct/${product._id}`);
+
+    if (data.countInStock < quantity) {
+      window.alert("sorry,product is not in stock");
+    }
+    ctxDispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
+    navigate("/cart");
+  };
+
   return loading ? (
     <LoadingBox />
   ) : error ? (
@@ -103,7 +119,9 @@ function ProductScreen() {
                 {product.countInStock > 0 && (
                   <ListGroup.Item>
                     <div className="d-grid">
-                      <Button variant="primary">Add to Cart</Button>
+                      <Button onClick={addToCart} variant="primary">
+                        Add to Cart
+                      </Button>
                     </div>
                   </ListGroup.Item>
                 )}
