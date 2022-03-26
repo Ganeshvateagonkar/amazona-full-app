@@ -1,6 +1,10 @@
 import express from "express";
 const app = express();
 import data from "./data.js";
+import dotenv from "dotenv";
+import ConnectDB from "./config/db.js";
+dotenv.config();
+ConnectDB();
 
 app.get("/api/products/:slug", (req, res) => {
   const product = data.products.find((x) => x.slug === req.params.slug);
