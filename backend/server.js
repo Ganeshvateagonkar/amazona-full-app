@@ -1,11 +1,12 @@
 import express from "express";
 const app = express();
-import data from "./data.js";
+//import data from "./data.js";
 import dotenv from "dotenv";
 import ConnectDB from "./config/db.js";
 import seedRouter from "./routes/seedRoutes.js";
 import productRouter from "./routes/productRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import orderRouter from "./routes/orderRoutes.js";
 dotenv.config();
 ConnectDB();
 
@@ -20,6 +21,9 @@ app.use("/api/seed", seedRouter);
 app.use("/api/products", productRouter);
 //user Routes
 app.use("/api/users", userRouter);
+
+//order
+app.use("/api/orders", orderRouter);
 
 //error message
 app.use((err, req, res, next) => {
