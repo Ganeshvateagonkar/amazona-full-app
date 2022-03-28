@@ -6,6 +6,7 @@ import Axios from "axios";
 import { Store } from "../store";
 import { toast } from "react-toastify";
 import getError from "../utils";
+import CheckoutSteps from "../components/CheckoutSteps";
 
 function SignInScreen() {
   const [email, setEmail] = useState("");
@@ -40,6 +41,7 @@ function SignInScreen() {
       <Helmet>
         <title>Sign In</title>
       </Helmet>
+      <CheckoutSteps step1></CheckoutSteps>
       <h1 className="my-3 text-center">Sign In</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="email" className="mb-3">
