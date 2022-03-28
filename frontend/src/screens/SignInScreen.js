@@ -12,7 +12,7 @@ function SignInScreen() {
       <Helmet>
         <title>Sign In</title>
       </Helmet>
-      <h1 className="my-3">Sign In</h1>
+      <h1 className="my-3 text-center">Sign In</h1>
       <Form>
         <Form.Group controlId="email" className="mb-3">
           <Form.Label>Email</Form.Label>
