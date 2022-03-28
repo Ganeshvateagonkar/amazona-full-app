@@ -14,6 +14,10 @@ ConnectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.get("/api/keys/paypal", (req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID || "sb");
+});
+
 //sample product api
 app.use("/api/seed", seedRouter);
 
